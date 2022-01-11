@@ -28,7 +28,7 @@ intents.members = False
 intents.presences = False
 """
 
-if os.getenv("BOT_TOKEN").lower() == "all":
+if os.getenv("BOT_INTENT").lower() == "all":
     intents = nextcord.Intents.all()
 else:
     intents = nextcord.Intents.default()
