@@ -25,16 +25,23 @@ Here is an explanation for .env:
 
 # Future Feature
 
-1. Pagination for help command
-2. Slash command. (waiting for nextcord support slash command)
-3. Update help commands for cogs and group
-4. Add some example for client event 
+1. Pagination for help command.
+2. Slash command. (waiting for nextcord support slash command).
+3. Update help commands for cogs and group.
+4. Add some example for client event.
+
+# Other Help
+
+- [Cogs](./cogs/README.md)
+- [data](./data/README.md)
+- [exceptions](./exceptions/README.md)
+- [utils](./utils/README.md)
 
 # Contributing The Project
 
 This template not finish yet. There's some feature that I like to add like pagination on help menu, You can always pull
 request to this repo, if you report or fix a bug or if you add more commands to the template I'll be happy implement
-them. 
+them.
 
 # License
 
