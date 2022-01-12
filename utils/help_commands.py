@@ -28,7 +28,10 @@ class CustomHelpCommand(commands.DefaultHelpCommand):
         info_board.set_author(name=os.getenv("BOT_AUTHOR") or "github.com/MeGaNeKoS/Discord-Bot-Template")
 
         for command, obj in self.context.bot.all_commands.items():
-            info_board.add_field(name=f"{self.context.bot.command_prefix}{command}", value=obj.help or "", inline=False)
+            info_board.add_field(
+                name=f"{self.context.bot.command_prefix}{command}",
+                value=obj.help or "No help description",
+                inline=True)
 
         await self.context.send(embed=info_board)
 
