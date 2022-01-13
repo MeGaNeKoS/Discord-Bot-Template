@@ -25,14 +25,31 @@ class CustomHelpCommand(commands.DefaultHelpCommand):
             colour=nextcord.Colour.blurple()
         )
         info_board.set_footer(text=f"{self.context.bot.user.display_name}")
-        info_board.set_author(name=os.getenv("BOT_AUTHOR") or "github.com/MeGaNeKoS/Discord-Bot-Template")
-
-        for command, obj in self.context.bot.all_commands.items():
+        info_board.set_author(name=os.getenv("BOT_AUTHOR") or "MeGaNeKoS",
+                              url=nextcord.Embed.Empty if os.getenv("BOT_AUTHOR") else
+                              "https://github.com/MeGaNeKoS/Discord-Bot-Template")
+        info_board.add_field(
+            name="\u200B",
+            value="\u200B",
+            inline=False)
+        for cog, commands_list in mapping.items():
+            if not cog or not commands_list:
+                continue
             info_board.add_field(
-                name=f"{self.context.bot.command_prefix}{command}",
-                value=obj.help or "No help description",
-                inline=True)
-
+                name=f"{cog.qualified_name}",
+                value=cog.description or "No group description added",
+                inline=False)
+            for command in commands_list:
+                info_board.add_field(
+                    name=f"{command}",
+                    value=command.help or "No help added",
+                    inline=True)
+            info_board.add_field(
+                name="\u200B",
+                value="\u200B",
+                inline=False)
+        else:
+            info_board.remove_field(-1)
         await self.context.send(embed=info_board)
 
     async def send_cog_help(self, cog):
@@ -50,6 +67,8 @@ class CustomHelpCommand(commands.DefaultHelpCommand):
             colour=nextcord.Colour.dark_red()
         )
         info_board.set_footer(text=f"{self.context.bot.user.display_name}")
-        info_board.set_author(name=os.getenv("BOT_AUTHOR") or "github.com/MeGaNeKoS/Discord-Bot-Template")
+        info_board.set_author(name=os.getenv("BOT_AUTHOR") or "MeGaNeKoS",
+                              url=nextcord.Embed.Empty if os.getenv("BOT_AUTHOR") else
+                              "https://github.com/MeGaNeKoS/Discord-Bot-Template")
 
         return await self.context.send(embed=info_board)

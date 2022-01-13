@@ -10,7 +10,7 @@ import nextcord
 from nextcord.ext import commands
 
 
-class Info(commands.Cog):
+class Info(commands.Cog, description="Information about this bot"):
     def __init__(self, bot):
         self.bot = bot
 
