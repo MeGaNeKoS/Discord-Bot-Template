@@ -24,13 +24,20 @@ class Info(commands.Cog, description="Information about this bot"):
         info_board = nextcord.Embed(
             title=f"{self.bot.user.display_name}",
             description=os.getenv("BOT_DESC") or "This bot made with MeGaNeKo bot template.",
-            colour=nextcord.Colour.dark_blue()
+            colour=nextcord.Colour.dark_blue(),
+            url=nextcord.Embed.Empty if os.getenv("BOT_DESC") else
+            "https://github.com/MeGaNeKoS/Discord-Bot-Template"
         )
         info_board.set_footer(text=f"{self.bot.user.display_name}")
-        info_board.set_author(name=os.getenv("BOT_AUTHOR") or "github.com/MeGaNeKoS/Discord-Bot-Template")
+        info_board.set_author(name=os.getenv("BOT_AUTHOR") or "MeGaNeKoS",
+                              url=nextcord.Embed.Empty if os.getenv("BOT_AUTHOR") else
+                              "https://github.com/MeGaNeKoS/Discord-Bot-Template")
+        info_board.add_field(
+            name="\u200B",
+            value="\u200B",
+            inline=False)
         info_board.add_field(name="Commands", value=f"Type {self.bot.command_prefix}help for commands list.",
                              inline=True)
-        await ctx.send(embed=info_board)
 
 
 def setup(bot):
