@@ -18,6 +18,7 @@ Here is an explanation for .env:
 | Variable                  | What it is                                                            |
 | ------------------------- | ----------------------------------------------------------------------|
 | BOT_AUTHOR                | The bot author                                                        |
+| BOT_AUTHOR_URL            | The bot author embed link. Can be empty                               |
 | BOT_DESC                  | The bot description                                                   |
 | BOT_INTENT                | The bot intents. either all or default. Default value is default      |
 | BOT_PREFIX                | The prefix you want to use for normal commands. Default value is "?"  |

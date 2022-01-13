@@ -29,9 +29,15 @@ class Info(commands.Cog, description="Information about this bot"):
             "https://github.com/MeGaNeKoS/Discord-Bot-Template"
         )
         info_board.set_footer(text=f"{self.bot.user.display_name}")
+        if os.getenv("BOT_AUTHOR"):
+            if url := os.getenv("BOT_AUTHOR_URL"):
+                pass
+            else:
+                url = nextcord.Embed.Empty
+        else:
+            url = "https://github.com/MeGaNeKoS/Discord-Bot-Template"
         info_board.set_author(name=os.getenv("BOT_AUTHOR") or "MeGaNeKoS",
-                              url=nextcord.Embed.Empty if os.getenv("BOT_AUTHOR") else
-                              "https://github.com/MeGaNeKoS/Discord-Bot-Template")
+                              url=url)
         info_board.add_field(
             name="\u200B",
             value="\u200B",
