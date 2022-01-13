@@ -4,7 +4,7 @@ Description:
 This is a template to create your own discord bot in python.
 Version: 1.0
 """
-from nextcord.ext import commands
+from nextcord.ext import commands, tasks
 
 
 class Client(commands.Cog):
@@ -16,6 +16,10 @@ class Client(commands.Cog):
         """
         The code in this even is executed when the bot is ready
         """
+        for cog in self.bot.cogs:
+            for func in dir((cog_class := self.bot.get_cog(cog))):
+                if callable(task := getattr(cog_class, func)) and isinstance(task, tasks.Loop):
+                    task.start()
         print("Bot is ready!")
 
 
