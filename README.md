@@ -28,8 +28,7 @@ Here is an explanation for .env:
 
 1. Pagination for help command.
 2. Slash command. (waiting for nextcord support slash command).
-3. Handle user error command properly instead of no response.
-4. Add some example for client event.
+3. Add some example for client event.
 
 # Other Help
 
