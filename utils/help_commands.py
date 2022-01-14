@@ -26,7 +26,7 @@ class CustomHelpCommand(commands.DefaultHelpCommand):
         )
         info_board.set_footer(text=f"{self.context.bot.user.display_name}")
         if os.getenv("BOT_AUTHOR"):
-            if url := os.getenv("BOT_AUTHOR_URL"):
+            if url := os.getenv("BOT_URL"):
                 pass
             else:
                 url = nextcord.Embed.Empty
@@ -34,28 +34,28 @@ class CustomHelpCommand(commands.DefaultHelpCommand):
             url = "https://github.com/MeGaNeKoS/Discord-Bot-Template"
         info_board.set_author(name=os.getenv("BOT_AUTHOR") or "MeGaNeKoS",
                               url=url)
-        info_board.add_field(
-            name="\u200B",
-            value="\u200B",
-            inline=False)
+        info_board.add_field(name="\u200B", value="\u200B", inline=False)
         for cog, commands_list in mapping.items():
             if not cog or not commands_list:
                 continue
             info_board.add_field(
                 name=f"{cog.qualified_name}",
-                value=cog.description or "No group description added",
+                value=cog.description or "No description added",
                 inline=False)
+            undo = True
             for command in commands_list:
-                info_board.add_field(
-                    name=f"{command}",
-                    value=command.help or "No help added",
-                    inline=True)
-            info_board.add_field(
-                name="\u200B",
-                value="\u200B",
-                inline=False)
+                if await command.can_run(self.context):
+                    info_board.add_field(
+                        name=f"{command}",
+                        value=command.help or "No description added",
+                        inline=True)
+                    undo = False
+            if undo:
+                info_board.remove_field(-1)
+            info_board.add_field(name="\u200B", value="\u200B", inline=False)
         else:
-            info_board.remove_field(-1)
+            while info_board.fields[-1].name == "\u200b":
+                info_board.remove_field(-1)
         await self.context.send(embed=info_board)
 
     async def send_cog_help(self, cog):
@@ -67,6 +67,8 @@ class CustomHelpCommand(commands.DefaultHelpCommand):
         return await super().send_group_help(group)
 
     async def send_command_help(self, command):
+        if not await command.can_run(self.context):
+            raise commands.errors.CheckFailure(f"You doesnt have enough permission to get the details")
         info_board = nextcord.Embed(
             title=f"{command.name}",
             description=command.description,
