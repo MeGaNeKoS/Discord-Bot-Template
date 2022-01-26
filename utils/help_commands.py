@@ -74,6 +74,7 @@ class CustomHelpCommand(commands.DefaultHelpCommand):
             description=command.description,
             colour=nextcord.Colour.dark_red()
         )
+        info_board.add_field(name="Usage", value=command.usage, inline=False)
         info_board.set_footer(text=f"{self.context.bot.user.display_name}")
         if os.getenv("BOT_AUTHOR"):
             if url := os.getenv("BOT_AUTHOR_URL"):
