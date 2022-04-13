@@ -68,7 +68,7 @@ for cog in cogs:
         bot.load_extension(cog)
         logger.info(f"Loaded cog {cog}")
     except Exception as e:
-        print(f"Failed to load cog {cog}\n{type(e).__name__}: {e}")
+        logger.warning(f"Failed to load cog {cog}\n{type(e).__name__}: {e}")
 
 # Run the bot with the token
 if __name__ == "__main__":
