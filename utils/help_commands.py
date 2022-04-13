@@ -4,10 +4,11 @@ Description:
 This is a template to create your own discord bot in python.
 Version: 1.0
 """
-import os
 
 import nextcord
 from nextcord.ext import commands
+
+from utils import helpers
 
 
 class CustomHelpCommand(commands.DefaultHelpCommand):
@@ -20,42 +21,26 @@ class CustomHelpCommand(commands.DefaultHelpCommand):
 
     async def send_bot_help(self, mapping):
         # Request: Add pagination here
-        info_board = nextcord.Embed(
-            title=f"{self.context.bot.user.display_name}",
-            colour=nextcord.Colour.blurple()
-        )
-        info_board.set_footer(text=f"{self.context.bot.user.display_name}")
-        if os.getenv("BOT_AUTHOR"):
-            if url := os.getenv("BOT_URL"):
-                pass
-            else:
-                url = nextcord.Embed.Empty
-        else:
-            url = "https://github.com/MeGaNeKoS/Discord-Bot-Template"
-        info_board.set_author(name=os.getenv("BOT_AUTHOR") or "MeGaNeKoS",
-                              url=url)
-        info_board.add_field(name="\u200B", value="\u200B", inline=False)
+        fields = []
         for cog, commands_list in mapping.items():
             if not cog or not commands_list:
                 continue
-            info_board.add_field(
-                name=f"{cog.qualified_name}",
-                value=cog.description or "No description added",
-                inline=False)
-            undo = True
+            fields.append({"name": cog.qualified_name,
+                           "value": cog.description or "No description added",
+                           "inline": False,
+                           "blank_before": True})
             for command in commands_list:
                 if await command.can_run(self.context):
-                    info_board.add_field(
-                        name=f"{command}",
-                        value=command.help or "No description added",
-                        inline=True)
-                    undo = False
-            if undo:
-                info_board.remove_field(-1)
-            info_board.add_field(name="\u200B", value="\u200B", inline=False)
-        else:
-            while info_board.fields[-1].name == "\u200b":
-                info_board.remove_field(-1)
+                    fields.append({"name": command,
+                                   "value": command.help or "No description added",
+                                   "inline": True})
+
+        info_board = helpers.embed(
+            title=f"{self.context.bot.user.display_name}",
+            colour=nextcord.Colour.blurple(),
+            footer=self.context.bot.user.display_name,
+            fields=fields
+        )
         await self.context.send(embed=info_board)
 
     async def send_cog_help(self, cog):
@@ -68,22 +53,18 @@ class CustomHelpCommand(commands.DefaultHelpCommand):
 
     async def send_command_help(self, command):
         if not await command.can_run(self.context):
-            raise commands.errors.CheckFailure(f"You doesnt have enough permission to get the details")
-        info_board = nextcord.Embed(
-            title=f"{command.name}",
+            raise commands.errors.CheckFailure(f"You doesnt have enough permission to access this command")
+
+        fields = [{"name": "Usage",
+                   "value": command.usage,
+                   "inline": False}]
+
+        info_board = helpers.embed(
+            title=command.name,
             description=command.description,
-            colour=nextcord.Colour.dark_red()
+            colour=nextcord.Colour.dark_red(),
+            footer=self.context.bot.user.display_name,
+            fields=fields
         )
-        info_board.add_field(name="Usage", value=command.usage, inline=False)
-        info_board.set_footer(text=f"{self.context.bot.user.display_name}")
-        if os.getenv("BOT_AUTHOR"):
-            if url := os.getenv("BOT_AUTHOR_URL"):
-                pass
-            else:
-                url = nextcord.Embed.Empty
-        else:
-            url = "https://github.com/MeGaNeKoS/Discord-Bot-Template"
-        info_board.set_author(name=os.getenv("BOT_AUTHOR") or "MeGaNeKoS",
-                              url=url)
 
         return await self.context.send(embed=info_board)
