@@ -2,7 +2,6 @@ import datetime
 import os
 
 from nextcord import Embed
-from nextcord.embeds import EmbedType
 
 
 # keyword only arguments
@@ -13,7 +12,7 @@ def embed(*,
           footer=Embed.Empty,
           fields: list[dict] = None,
           timestamp: datetime.datetime = None,
-          embed_type: EmbedType = 'rich'):
+          embed_type: str = 'rich'):
     if fields is None:
         fields = []
 
