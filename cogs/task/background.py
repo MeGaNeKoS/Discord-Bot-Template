@@ -11,10 +11,9 @@ class Auto(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    # @tasks.loop()
-    # async def spam(self):
-    #     channel = self.bot.get_guild(0).get_channel(0)
-    #     await channel.send("This is spam")
+    @tasks.loop(hours=1)
+    async def example(self):
+        print("This is example every 1 hour")
 
 
 def setup(bot):
