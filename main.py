@@ -4,6 +4,7 @@ Description:
 This is a template to create your own discord bot in python.
 Version: 1.0
 """
+import logging
 import os
 
 import nextcord
@@ -14,9 +15,29 @@ from utils.help_commands import CustomHelpCommand
 
 load_dotenv()
 
+logger = logging.getLogger(__name__)
+# this has to be the highest level than the other loggers
+# just leave it as it is
+# adjusted the logging level on the file handler or stream handler
+logger.setLevel(logging.DEBUG)
+
+formatter = logging.Formatter('%(levelname)s:%(name)s:%(message)s')
+
+file_handler = logging.FileHandler('app.log')
+file_handler.setFormatter(formatter)
+file_handler.setLevel(logging.WARNING)  # default level is WARNING
+
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(formatter)
+stream_handler.setLevel(logging.INFO)  # default level is WARNING
+
+logger.addHandler(file_handler)
+logger.addHandler(stream_handler)
+
 if not (bot_token := os.getenv("BOT_TOKEN")):
     raise Exception("Required bot token")
 bot_prefix = os.getenv("BOT_PREFIX") or "?"
+
 """	
 Setup bot intents (events restrictions)
 For more information about intents, please go to the following websites:
@@ -43,11 +64,12 @@ cogs: list = [os.path.join(path, file)[2:-3].replace("/", ".").replace("\\", "."
 
 for cog in cogs:
     try:
-        print(f"Loading cog {cog}")
+        logger.info(f"Loading cog {cog}")
         bot.load_extension(cog)
-        print(f"Loaded cog {cog}")
+        logger.info(f"Loaded cog {cog}")
     except Exception as e:
         print(f"Failed to load cog {cog}\n{type(e).__name__}: {e}")
 
 # Run the bot with the token
-bot.run(bot_token)
+if __name__ == "__main__":
+    bot.run(bot_token)
