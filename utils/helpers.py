@@ -1,3 +1,10 @@
+""""
+MeGaNeKo 2022 - https://github.com/MeGaNeKoS/Discord-Bot-Template
+Description:
+This is a template to create your own discord bot in python.
+Version: 1.0
+"""
+
 import datetime
 import os
 from typing import Literal

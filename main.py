@@ -6,13 +6,12 @@ Version: 1.0
 """
 import logging
 import os
+import sys
 
 import nextcord
 from dotenv import load_dotenv
 from nextcord.ext import commands
-
-from utils.help_commands import CustomHelpCommand
-
+from utils import sys_logger
 load_dotenv()
 
 logger = logging.getLogger(__name__)
@@ -33,6 +32,8 @@ stream_handler.setLevel(logging.INFO)  # default level is WARNING
 
 logger.addHandler(file_handler)
 logger.addHandler(stream_handler)
+
+sys.stderr = sys_logger.STDERRLogger()
 
 if not (bot_token := os.getenv("BOT_TOKEN")):
     raise Exception("Required bot token")
