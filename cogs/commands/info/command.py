@@ -11,6 +11,9 @@ from utils import helpers
 
 
 class Info(commands.Cog, description="Information about this bot"):
+
+    COG_EMOJI = "🔍"
+
     def __init__(self, bot):
         self.bot = bot
 
@@ -24,7 +27,7 @@ class Info(commands.Cog, description="Information about this bot"):
         fields = [{"name": "Help Commands",
                    "value": f"Type {self.bot.command_prefix}help for commands list.",
                    "inline": True,
-                   "blank_before": True}]
+                   "blank_before": False}]
 
         info_board = helpers.embed(title=self.bot.user.display_name,
                                    colour=nextcord.Colour.dark_blue(),

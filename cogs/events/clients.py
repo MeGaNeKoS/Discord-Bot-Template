@@ -4,7 +4,6 @@ Description:
 This is a template to create your own discord bot in python.
 Version: 1.0
 """
-import asyncio
 
 import nextcord
 from nextcord.ext import commands, tasks
@@ -40,11 +39,7 @@ class Client(commands.Cog):
                                   description=f"My prefix is `{self.bot.command_prefix}`",
                                   colour=nextcord.Colour.random())
             await message.channel.send(embed=embed, delete_after=15)
-            await asyncio.sleep(15)
-            try:
-                await message.delete()
-            except nextcord.errors.NotFound:
-                pass
+            await message.delete(delay=15)
 
 
 def setup(bot):

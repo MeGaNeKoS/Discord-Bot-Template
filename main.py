@@ -54,7 +54,7 @@ if os.getenv("BOT_INTENT").lower() == "all":
     intents = nextcord.Intents.all()
 else:
     intents = nextcord.Intents.default()
-bot = commands.Bot(command_prefix=bot_prefix, help_command=CustomHelpCommand(), intents=intents)
+bot = commands.Bot(command_prefix=bot_prefix, intents=intents)
 """
 This will automatically load all commands located in cogs folder.
 """
